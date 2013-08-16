@@ -129,7 +129,7 @@ class Git_Command extends WP_CLI_Command {
         if(!chmod($hook_filename, 0755)) {
           WP_CLI::error("Failed to make '$hook_filename' executable.");
         }
-        
+
       } else {
         // yes ...
 
@@ -202,6 +202,9 @@ class Git_Command extends WP_CLI_Command {
         }
       }
     }
+
+    // if you reached this point, everything should have worked ;-)
+
   }
 
 }
