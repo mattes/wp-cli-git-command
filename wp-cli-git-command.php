@@ -14,7 +14,7 @@ class Git_Command extends WP_CLI_Command {
    *
    */
   function init( $args, $assoc_args ) {
-    
+
     // recursively find .git directory in $path
     // return false if no .git directory is found or $path if found
     function find_git_directory($path) {
@@ -37,6 +37,7 @@ class Git_Command extends WP_CLI_Command {
         return find_git_directory(dirname($path));
       }
     }
+
 
     function run_init_git($wp_base_path) {
       $wp_base_path = rtrim($wp_base_path, DIRECTORY_SEPARATOR);
@@ -64,6 +65,7 @@ class Git_Command extends WP_CLI_Command {
       chdir(ABSPATH);
     }
 
+
     function create_pre_commit_hook($wp_base_path) {
       $wp_base_path = rtrim($wp_base_path, DIRECTORY_SEPARATOR);
       $hooks_path = $wp_base_path . DIRECTORY_SEPARATOR 
@@ -74,7 +76,14 @@ class Git_Command extends WP_CLI_Command {
       $hook_filename = $hooks_path . DIRECTORY_SEPARATOR 
                      . "pre-commit-mysql-dump";
 
-      $content = "";
+      # @todo is there a global variable holding value from dirname(__FILE__)?!
+      $content = file_get_contents(
+        dirname(__FILE__) . DIRECTORY_SEPARATOR . 'pre-commit-mysql-dump');
+
+      if($content === false) {
+        WP_CLI::error("Failed reading " 
+          . dirname(__FILE__) . DIRECTORY_SEPARATOR . 'pre-commit-mysql-dump');
+      }
 
       // delete existing hook, if existing
       if(file_exists($hook_filename)) {
@@ -89,14 +98,56 @@ class Git_Command extends WP_CLI_Command {
         WP_CLI::error("Failed to create '$hook_filename'.");
       }
 
+      // make it executable
+      if(!chmod($hook_filename, 0755)) {
+        WP_CLI::error("Failed to make '$hook_filename' executable.");
+      }
+
       WP_CLI::success("Pre-commit '" . basename($hook_filename) . "' created.");
-      
-      link_pre_commit_hook($wp_base_path);
     }
+
 
     function link_pre_commit_hook($wp_base_path) {
       $wp_base_path = rtrim($wp_base_path, DIRECTORY_SEPARATOR);
-      
+      $hooks_path = $wp_base_path . DIRECTORY_SEPARATOR 
+          . '.git' . DIRECTORY_SEPARATOR
+          . 'hooks' . DIRECTORY_SEPARATOR;
+
+      $hook_filename = $hooks_path . DIRECTORY_SEPARATOR 
+                     . "pre-commit";
+
+      // global pre-commit hook exists?
+      if(!file_exists($hook_filename)) {
+        // no, create it and link our hook file to global hook file
+        $content = "#!/bin/sh\n\n" 
+                 . "source ./pre-commit-mysql-dump";
+        if(file_put_contents($hook_filename, $content) === false) {
+          WP_CLI::error("Failed to create '$hook_filename'.");
+        }
+
+        // make it executable
+        if(!chmod($hook_filename, 0755)) {
+          WP_CLI::error("Failed to make '$hook_filename' executable.");
+        }
+        
+      } else {
+        // yes ...
+
+        $content = file_get_contents($hook_filename);
+        if($content === false) {
+          WP_CLI::error("Failed reading " . $hook_filename);
+        }
+
+        if(strpos($content, "source ./pre-commit-mysql-dump") === false) {
+          // not linked yet. insert ...
+          if(file_put_contents($hook_filename, 
+            "\nsource ./pre-commit-mysql-dump", FILE_APPEND) === false) {
+            WP_CLI::error("Failed to write in '$hook_filename'.");
+          }
+        }
+      }
+
+      WP_CLI::success("Pre-commit linked in '" . basename($hook_filename) . "'.");
     }
 
 
@@ -113,6 +164,7 @@ class Git_Command extends WP_CLI_Command {
       // ==================================
       run_init_git(ABSPATH);
       create_pre_commit_hook(ABSPATH);
+      link_pre_commit_hook(ABSPATH);
 
     } else {
 
@@ -125,6 +177,8 @@ class Git_Command extends WP_CLI_Command {
         // -----------------------------------------------------
         run_init_git(ABSPATH);
         create_pre_commit_hook(ABSPATH);
+        link_pre_commit_hook(ABSPATH);
+
       } else {
         // this ABSPATH has a .git directory
         $hook_path = $git_directory . DIRECTORY_SEPARATOR 
@@ -136,12 +190,15 @@ class Git_Command extends WP_CLI_Command {
           // this .git directory in ABSPATH already as a pre-commit
           // ------------------------------------------------------
           create_pre_commit_hook(ABSPATH);
+          link_pre_commit_hook(ABSPATH);
           WP_CLI::warning("Pre-commit hook $hook_path exists " 
                         . "and was modified by me.");
+
         } else {
           // this .git directory in ABSPATH has no pre-commit
           // ------------------------------------------------
           create_pre_commit_hook(ABSPATH);
+          link_pre_commit_hook(ABSPATH);
         }
       }
     }
