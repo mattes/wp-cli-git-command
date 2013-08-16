@@ -1,0 +1,24 @@
+{
+    "name": "oxford-themes/wp-cli-git",
+    "type": "command",
+    "description": "Initialize Git repositories with pre-commit hooks that dump all MySQL tables.",
+    "keywords": ["wp-cli", "git", "mysql", "dump", "wordpress"],
+    "homepage": "https://github.com/oxford-themes/wp-cli-git",
+    "require": {
+        "wp-cli/wp-cli": ">=0.11"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Matthias Kadenbach",
+            "email": "matthias.kadenbach@gmail.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/oxford-themes/wp-cli-git/issues",
+        "source": "https://github.com/oxford-themes/wp-cli-git"
+    },
+    "autoload": {
+        "files": [ "wp-cli-git-command.php" ]
+    }
+}
