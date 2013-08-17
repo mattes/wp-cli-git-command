@@ -7,14 +7,14 @@ WordPress Git helpers, like pre-commit hooks for automatic MySQL database dumps.
 ## Installation
 ... as described here: https://github.com/wp-cli/wp-cli/wiki/Community-Packages#installing-community-packages-manually
 
-```
+```bash
 # in your working directory containing the composer.json file
 composer config repositories.wp-cli composer http://wp-cli.org/package-index/
 composer require oxford-themes/wp-cli-git-command=dev-master
 ```
 
 ## Usage
-```
+```bash
 # in your WordPress directory
 wp git init
 
