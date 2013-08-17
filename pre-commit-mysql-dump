@@ -5,7 +5,7 @@
 # Return true (= 1), if there are no changes in the repository. 
 has_clean_work_tree () {
   git rev-parse --quiet --verify HEAD &> /dev/null || return 0 # false
-  git update-index --quiet --ignore-submodules --refresh
+  git update-index -q --ignore-submodules --refresh
 
   if ! git diff-files --quiet --ignore-submodules
   then
