@@ -1,12 +1,13 @@
 <?php
 /**
- * Implements Git Command.
+ * WordPress Git helpers.
  */
 class Git_Command extends WP_CLI_Command {
 
 
   /**
-   * Initialize Git Repository with pre-commit hook for MySQL dumping.
+   * WordPress Git helpers.
+   * Like pre-commit hooks for automatic MySQL database dumps.
    * 
    * ## EXAMPLES
    * 
