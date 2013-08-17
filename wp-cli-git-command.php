@@ -120,7 +120,7 @@ class Git_Command extends WP_CLI_Command {
       if(!file_exists($hook_filename)) {
         // no, create it and link our hook file to global hook file
         $content = "#!/bin/sh\n\n" 
-                 . "source ./pre-commit-mysql-dump";
+                 . "source .git/hooks/pre-commit-mysql-dump";
         if(file_put_contents($hook_filename, $content) === false) {
           WP_CLI::error("Failed to create '$hook_filename'.");
         }
@@ -138,10 +138,10 @@ class Git_Command extends WP_CLI_Command {
           WP_CLI::error("Failed reading " . $hook_filename);
         }
 
-        if(strpos($content, "source ./pre-commit-mysql-dump") === false) {
+        if(strpos($content, "source .git/hooks/pre-commit-mysql-dump") === false) {
           // not linked yet. insert ...
           if(file_put_contents($hook_filename, 
-            "\nsource ./pre-commit-mysql-dump", FILE_APPEND) === false) {
+            "\nsource .git/hooks/pre-commit-mysql-dump", FILE_APPEND) === false) {
             WP_CLI::error("Failed to write in '$hook_filename'.");
           }
         }

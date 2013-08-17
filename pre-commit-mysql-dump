@@ -1,3 +1,34 @@
 #!/bin/sh
 
-wp db export
+# Verify this repository has a clean work tree.
+# Return false (= 0), if there are any unstaged/ uncommitted changes.
+# Return true (= 1), if there are no changes in the repository. 
+has_clean_work_tree () {
+  git rev-parse --quiet --verify HEAD &> /dev/null || return 0 # false
+  git update-index --quiet --ignore-submodules --refresh
+
+  if ! git diff-files --quiet --ignore-submodules
+  then
+    return 0 # false
+  fi
+
+  if ! git diff-index --cached --quiet --ignore-submodules HEAD --
+  then
+    return 0 # false
+  fi
+
+  return 1 # true
+}
+
+
+has_clean_work_tree
+if [ "$?" == 0 ]; then
+  # No clean work tree ... and I will commit changes!
+
+  if [ ! -d "$(pwd)/.db" ]; then
+    mkdir "$(pwd)/.db"
+  fi
+
+  wp db export ".db/mysql_dump.sql"
+  git add ".db/mysql_dump.sql" # no idea, why this is needed (again)
+fi
