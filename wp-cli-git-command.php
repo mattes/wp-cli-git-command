@@ -6,8 +6,8 @@ class Git_Command extends WP_CLI_Command {
 
 
   /**
-   * WordPress Git helpers.
-   * Like pre-commit hooks for automatic MySQL database dumps.
+   * Initialize directory with Repository and add a pre-commit hook
+   * for automatic MySQL database dumps.
    * 
    * ## EXAMPLES
    * 
