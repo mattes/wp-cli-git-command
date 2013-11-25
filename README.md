@@ -14,7 +14,7 @@ for more detailed installation instructions.
 # find wp-cli's composer.json file and change to that directory
 # examples:
 # cd ~/.wp-cli (default installation directory)
-# cd /usr/local/ (when installed with homebrew)
+# cd /usr/local/opt/wp-cli (when installed with homebrew)
 
 # add package index if not done yet
 composer config repositories.wp-cli composer http://wp-cli.org/package-index/
