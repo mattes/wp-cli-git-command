@@ -31,7 +31,7 @@ Usage
 # in your WordPress directory
 wp git init
 
-# do some changes ...
+# do some changes to files
 
 git commit -am "i updated xyz" # creates .db/mysql_dump.sql
 
