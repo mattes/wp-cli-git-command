@@ -1,9 +1,9 @@
 {
-    "name": "oxford-themes/wp-cli-git-command",
+    "name": "mattes/wp-cli-git-command",
     "type": "command",
     "description": "WordPress Git helpers, like pre-commit hooks for automatic MySQL database dumps.",
     "keywords": ["wp-cli", "git", "mysql", "dump", "wordpress"],
-    "homepage": "https://github.com/oxford-themes/wp-cli-git-command",
+    "homepage": "https://github.com/mattes/wp-cli-git-command",
     "require": {
         "wp-cli/wp-cli": ">=0.11"
     },
@@ -12,12 +12,12 @@
         {
             "name": "Matthias Kadenbach",
             "email": "matthias.kadenbach@gmail.com",
-            "homepage": "http://oxford-themes.com"
+            "homepage": "http://matthiaskadenbach.de"
         }
     ],
     "support": {
-        "issues": "https://github.com/oxford-themes/wp-cli-git-command/issues",
-        "source": "https://github.com/oxford-themes/wp-cli-git-command"
+        "issues": "https://github.com/mattes/wp-cli-git-command/issues",
+        "source": "https://github.com/mattes/wp-cli-git-command"
     },
     "autoload": {
         "files": [ "wp-cli-git-command.php" ]
