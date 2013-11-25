@@ -4,16 +4,29 @@ wp-cli-git-command
 WordPress Git helpers, like pre-commit hooks for automatic MySQL database dumps.
 
 
-## Installation
-... as described here: https://github.com/wp-cli/wp-cli/wiki/Community-Packages#installing-community-packages-manually
+Installation
+============
+
+See https://github.com/wp-cli/wp-cli/wiki/Community-Packages#installing-community-packages-manually
+for more detailed installation instructions.
 
 ```bash
-# in your working directory containing the composer.json file
+# find wp-cli's composer.json file and change to that directory
+# examples:
+# cd ~/.wp-cli (default installation directory)
+# cd /usr/local/ (when installed with homebrew)
+
+# add package index if not done yet
 composer config repositories.wp-cli composer http://wp-cli.org/package-index/
-composer require oxford-themes/wp-cli-git-command=dev-master
+
+# install wp-cli-git-command
+composer require mattes/wp-cli-git-command=dev-master
 ```
 
-## Usage
+
+Usage
+=====
+
 ```bash
 # in your WordPress directory
 wp git init
@@ -28,10 +41,11 @@ git commit -am "i updated xyz" # creates .db/mysql_dump.sql
 wp db import .db/mysql_dump.sql
 ```
 
+--------------
 
 ## Developer Note
 I locally develop this plugin by setting a symlink. YOU don't have to do this.
 
 ```
-ln -s $(pwd)/wp-cli-git-command.php .../embed/local/opt/wp-cli/php/commands/wp-cli-git-command.php
+ln -s $(pwd)/wp-cli-git-command.php [...]/embed/local/opt/wp-cli/php/commands/wp-cli-git-command.php
 ```
