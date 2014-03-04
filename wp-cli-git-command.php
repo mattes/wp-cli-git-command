@@ -1,6 +1,6 @@
 <?php
 /**
- * WordPress Git helpers.
+ * Git helpers.
  */
 class Git_Command extends WP_CLI_Command {
 
