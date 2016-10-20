@@ -1,6 +1,6 @@
 {
     "name": "mattes/wp-cli-git-command",
-    "type": "command",
+    "type": "wp-cli-package",
     "description": "WordPress Git helpers, like pre-commit hooks for automatic MySQL database dumps.",
     "keywords": ["wp-cli", "git", "mysql", "dump", "wordpress"],
     "homepage": "https://github.com/mattes/wp-cli-git-command",
